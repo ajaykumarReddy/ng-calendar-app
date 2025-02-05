@@ -1,0 +1,17 @@
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  @for (appointment of appointments(); track trackByAppointment) {
+  <mat-card appearance="outlined" cdkDrag>
+    <mat-card-title>{{ appointment.title }}</mat-card-title>
+    <mat-card-content
+      ><div>
+        {{ appointment.startDate | date }} - {{ appointment.endDate | date }}
+      </div></mat-card-content
+    >
+    <mat-card-actions>
+      <button mat-button color="warn" (click)="deleteAppointment(appointment)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>

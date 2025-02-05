@@ -1,0 +1,62 @@
+<!-- filepath: /d:/calendar-app/src/app/shared/appointment-dialog/appointment-dialog.component.html -->
+<h1 mat-dialog-title>Appointment for {{ data.date | date }}</h1>
+<form [formGroup]="appointmentForm" (ngSubmit)="onSave()">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required />
+      @if (appointmentForm.get('title')?.hasError('required')) {
+      <mat-error> Title is required </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Start Time</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startPicker"
+        formControlName="startTime"
+        required
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+      @if (appointmentForm.get('startTime')?.hasError('required')) {
+      <mat-error> Start time is required </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End Time</mat-label>
+      <input
+        matInput
+        [matDatepicker]="endPicker"
+        formControlName="endTime"
+        required
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="endPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+      @if (appointmentForm.get('endTime')?.hasError('required')) {
+      <mat-error> End time is required </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button type="button" (click)="onNoClick()">Cancel</button>
+    <button
+      mat-button
+      type="submit"
+      [disabled]="!appointmentForm.valid"
+      cdkFocusInitial
+    >
+      Save
+    </button>
+  </div>
+</form>

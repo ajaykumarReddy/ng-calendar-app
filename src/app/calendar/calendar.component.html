@@ -1,0 +1,59 @@
+<div class="calendar-container">
+  <div class="calendar">
+    <mat-card class="calendar-card">
+      <mat-card-header>
+        <div class="calendar-header">
+          <button mat-icon-button (click)="previousMonth()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <h2>{{ month() + 1 }} - {{ year() }}</h2>
+          <button mat-icon-button (click)="nextMonth()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="weekdays-header">
+          @for (day of weekDays(); track day) {
+          <div class="weekday">{{ day }}</div>
+          }
+        </div>
+        <div class="calendar-grid">
+          @for (date of calendarDays(); track date) {
+          <div
+            class="calendar-cell"
+            [ngClass]="{
+              'different-month': !isSameMonth(date),
+              today: isToday(date),
+              'has-appointments': hasAppointments(date)
+            }"
+            (click)="openAppointmentDialog(date)"
+            (keydown.enter)="openAppointmentDialog(date)"
+            (keydown.space)="openAppointmentDialog(date)"
+            tabindex="0"
+          >
+            <div class="date-number">{{ date | date : "d" }}</div>
+            <div class="appointment-dots">
+              @for (appointment of getAppointmentsForDate(date); track
+              appointment) {
+              <div
+                class="appointment-dot"
+                [style.background-color]="appointment.color"
+              ></div>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="appointments">
+    <mat-card>
+      <app-appointment-list
+        [appointments]="appointments()"
+        (deleteAppointmentEvent)="deleteAppointment($event)"
+      />
+    </mat-card>
+  </div>
+</div>
